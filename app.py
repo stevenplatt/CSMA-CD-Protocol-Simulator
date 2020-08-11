@@ -154,17 +154,17 @@ C = 3 * pow(10, 8) # speed of light
 S = (2/float(3)) * C
 
 # Show the efficiency and throughput of the LAN (in Mbps) (CSMA/CD Persistent)
-for N in range(20, 101, 20):
-    for A in [7, 10, 20]:
+for N in range(10, 101, 10):
+    for A in [1]:
         R = 1 * pow(10, 6)
         L = 1500
-        print("Persistent: ", "Nodes: ", N, "Avg Packet: ", A)
+        print("Number of Nodes: ", N, "Packets Per Second: ", A)
         csma_cd(N, A, R, L, D, S, True)
 
 # Show the efficiency and throughput of the LAN (in Mbps) (CSMA/CD Non-persistent)
-for N in range(20, 101, 20):
-    for A in [7, 10, 20]:
-        R = 1 * pow(10, 6)
-        L = 1500
-        print("Non persistent", "Nodes: ", N, "Avg Packet: ", A)
-        csma_cd(N, A, R, L, D, S, False)
+#for N in range(20, 101, 20):
+#    for A in [7, 10, 20]:
+#        R = 1 * pow(10, 6)
+#        L = 1500
+#        print("Non persistent", "Nodes: ", N, "Avg Packet: ", A)
+#        csma_cd(N, A, R, L, D, S, False)
