@@ -155,16 +155,16 @@ D = 1500 * 1000 # conversion to kilometers
 C = 3 * pow(10, 8) # speed of light
 S = (2/float(3)) * C
 
-rate_a = 1 # 1 block per second
+rate_a = 1 / float(60*60) # 1 block per hour
 rate_b = 1 / float(60) # 1 block per minute
-rate_c = 1 / float(60*60) # 1 block per hour
+rate_c = 1 # 1 block per minute
 
 # Show the efficiency and throughput of the LAN (in Mbps) (CSMA/CD Persistent)
 for N in range(2, 11, 1):
     for A in [rate_a, rate_b, rate_c]:
         R = 1 * pow(10, 9)
         L = 1500
-        print("Nodes:", N,";", "Blocks Per Second:", A)
+        print("Peer Nodes:", N, "Blocks Per Hour:", A * (60*60))
         csma_cd(N, A, R, L, D, S, True)
 
 # Show the efficiency and throughput of the LAN (in Mbps) (CSMA/CD Non-persistent)
