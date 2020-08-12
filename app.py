@@ -3,7 +3,7 @@ import random
 import math
 import collections
 
-maxSimulationTime = 1000
+maxSimulationTime = 3600 # 1 hour simulated time
 total_num = 0
 class Node:
     def __init__(self, location, A):
@@ -136,7 +136,7 @@ def csma_cd(N, A, R, L, D, S, is_persistent):
         else:    # If a collision occurred
             min_node.collision_occured(R)
 
-    print("Effeciency", successfuly_transmitted_packets/float(transmitted_packets))
+    print("Efficiency", successfuly_transmitted_packets/float(transmitted_packets))
 #    print("Throughput", (L * successfuly_transmitted_packets) / float(curr_time + (L/R)) * pow(10, -6), "Mbps")
     print("Block Delay: ", ((t_prop + t_trans) * (transmitted_packets/successfuly_transmitted_packets)) * 3)
     print("Block Throughput:", int(successfuly_transmitted_packets / 3))
@@ -159,12 +159,12 @@ rate_a = 1 / float(60*60) # 1 block per hour
 rate_b = 1 / float(60) # 1 block per minute
 rate_c = 1 # 1 block per minute
 
-# Show the efficiency and throughput of the LAN (in Mbps) (CSMA/CD Persistent)
+# Show the system efficiency, block delay, and block throughput (CSMA/CD Persistent)
 for N in range(2, 11, 1):
     for A in [rate_a, rate_b, rate_c]:
-        R = 1 * pow(10, 9)
+        R = 1 * pow(10, 6)
         L = 1500
-        print("Peer Nodes:", N, "Blocks Per Hour:", A * (60*60))
+        print("Peer Nodes:",N,"; Blocks Per Hour:",A * (60*60))
         csma_cd(N, A, R, L, D, S, True)
 
 # Show the efficiency and throughput of the LAN (in Mbps) (CSMA/CD Non-persistent)
