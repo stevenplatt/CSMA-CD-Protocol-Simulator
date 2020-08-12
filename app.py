@@ -84,7 +84,7 @@ def csma_cd(N, A, R, L, D, S, is_persistent):
     transmitted_packets = 0
     successfuly_transmitted_packets = 0
     nodes = build_nodes(N, A, D)
-
+    
     while True:
 
     # Step 1: Pick the smallest time out of all the nodes
@@ -137,7 +137,9 @@ def csma_cd(N, A, R, L, D, S, is_persistent):
             min_node.collision_occured(R)
 
     print("Effeciency", successfuly_transmitted_packets/float(transmitted_packets))
-    print("Throughput", (L * successfuly_transmitted_packets) / float(curr_time + (L/R)) * pow(10, -6), "Mbps")
+#    print("Throughput", (L * successfuly_transmitted_packets) / float(curr_time + (L/R)) * pow(10, -6), "Mbps")
+    print("Block Delay: ", (((t_prop + t_trans) * (transmitted_packets/successfuly_transmitted_packets)) * 3)
+    print("Block Throughput:", (successfuly_transmitted_packets / 3))
     print("")
 
 
@@ -154,9 +156,9 @@ C = 3 * pow(10, 8) # speed of light
 S = (2/float(3)) * C
 
 # Show the efficiency and throughput of the LAN (in Mbps) (CSMA/CD Persistent)
-for N in range(10, 101, 10):
-    for A in [1]:
-        R = 1 * pow(10, 6)
+for N in range(2, 11, 2):
+    for A in [1, 5]:
+        R = 1 * pow(10, 9)
         L = 1500
         print("Number of Nodes: ", N, "Packets Per Second: ", A)
         csma_cd(N, A, R, L, D, S, True)
