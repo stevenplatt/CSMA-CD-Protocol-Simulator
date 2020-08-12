@@ -156,8 +156,8 @@ C = 3 * pow(10, 8) # speed of light
 S = (2/float(3)) * C
 
 # Show the efficiency and throughput of the LAN (in Mbps) (CSMA/CD Persistent)
-for N in range(2, 11, 2):
-    for A in [1, 5]:
+for N in range(2, 10, 1):
+    for A in [1]:
         R = 1 * pow(10, 9)
         L = 1500
         print("Number of Nodes: ", N, "Packets Per Second: ", A)
