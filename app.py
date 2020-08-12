@@ -136,10 +136,10 @@ def csma_cd(N, A, R, L, D, S, is_persistent):
         else:    # If a collision occurred
             min_node.collision_occured(R)
 
-    print("Effeciency", successfuly_transmitted_packets/float(transmitted_packets))
+    print("Effeciency", int(successfuly_transmitted_packets/transmitted_packets))
 #    print("Throughput", (L * successfuly_transmitted_packets) / float(curr_time + (L/R)) * pow(10, -6), "Mbps")
-    print("Block Delay: ", (((t_prop + t_trans) * (transmitted_packets/successfuly_transmitted_packets)) * 3)
-    print("Block Throughput:", (successfuly_transmitted_packets / 3))
+    print("Block Delay: ", int(((t_prop + t_trans) * (transmitted_packets/successfuly_transmitted_packets)) * 3))
+    print("Block Throughput:", int(successfuly_transmitted_packets / 3))
     print("")
 
 
