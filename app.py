@@ -43,7 +43,7 @@ class Node:
 
     def exponential_backoff_time(self, R, general_collisions):
         rand_num = random.random() * (pow(2, general_collisions) - 1)
-        return rand_num * 512/float(R)  # 512 bit-times
+        return rand_num * 4096/float(R)  # 4096 bit-times
 
     def pop_packet(self):
         self.queue.popleft()
@@ -138,7 +138,7 @@ def csma_cd(N, A, R, L, D, S, is_persistent):
 
     print("Efficiency", successfuly_transmitted_packets/float(transmitted_packets))
 #    print("Throughput", (L * successfuly_transmitted_packets) / float(curr_time + (L/R)) * pow(10, -6), "Mbps")
-    print("Block Delay: ", ((t_prop + t_trans) * (transmitted_packets/successfuly_transmitted_packets)) * 3)
+    print("Block Delay: ", (t_prop + t_trans) * 3)
     print("Block Throughput:", int(successfuly_transmitted_packets / 3))
     print("")
 
@@ -162,7 +162,7 @@ rate_c = 1 # 1 block per minute
 # Show the system efficiency, block delay, and block throughput (CSMA/CD Persistent)
 for N in range(2, 11, 1):
     for A in [rate_a, rate_b, rate_c]:
-        R = 1 * pow(10, 6)
+        R = 1 * pow(10, 9)
         L = 1500
         print("Peer Nodes:",N,"; Blocks Per Hour:",A * (60*60))
         csma_cd(N, A, R, L, D, S, True)
