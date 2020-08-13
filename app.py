@@ -2,9 +2,11 @@
 import random
 import math
 import collections
+import csv 
+from statistics import mean
 
 maxSimulationTime = 3600 # 1 hour simulated time
-total_num = 0
+
 class Node:
     def __init__(self, location, A):
         self.queue = collections.deque(self.generate_queue(A))
@@ -136,12 +138,15 @@ def csma_cd(N, A, R, L, D, S, is_persistent):
         else:    # If a collision occurred
             min_node.collision_occured(R)
 
-    print("Efficiency", successfuly_transmitted_packets/float(transmitted_packets))
+#    print("Efficiency", successfuly_transmitted_packets/float(transmitted_packets))
 #    print("Throughput", (L * successfuly_transmitted_packets) / float(curr_time + (L/R)) * pow(10, -6), "Mbps")
-    print("Block Delay: ", (t_prop + t_trans) * 3)
-    print("Block Throughput:", int(successfuly_transmitted_packets / 3))
-    print("")
+#    print("Block Delay: ", (t_prop + t_trans) * 3)
+#    print("Block Throughput:", int(successfuly_transmitted_packets / 3))
 
+    link_efficiency = int(float(successfuly_transmitted_packets / transmitted_packets)*100)
+    block_throughput = int(successfuly_transmitted_packets / 3)
+
+    return link_efficiency # change between "block_throughput" and "link_efficiency" simulations
 
 # Run Algorithm
 # N = The number of nodes/computers connected to the LAN
@@ -157,20 +162,46 @@ S = (2/float(3)) * C
 
 rate_a = 1 / float(60*60) # 1 block per hour
 rate_b = 1 / float(60) # 1 block per minute
-rate_c = 1 # 1 block per minute
+rate_c = 1 # 1 block per second
 
-# Show the system efficiency, block delay, and block throughput (CSMA/CD Persistent)
-for N in range(2, 11, 1):
-    for A in [rate_a, rate_b, rate_c]:
-        R = 1 * pow(10, 9)
-        L = 1500
-        print("Peer Nodes:",N,"; Blocks Per Hour:",A * (60*60))
-        csma_cd(N, A, R, L, D, S, True)
+def simulation():    # Show the system efficiency, block delay, and block throughput (CSMA/CD Persistent)
+    for N in range(2, 11, 1):
 
-# Show the efficiency and throughput of the LAN (in Mbps) (CSMA/CD Non-persistent)
-#for N in range(20, 101, 20):
-#    for A in [7, 10, 20]:
-#        R = 1 * pow(10, 6)
-#        L = 1500
-#        print("Non persistent", "Nodes: ", N, "Avg Packet: ", A)
-#        csma_cd(N, A, R, L, D, S, False)
+        node_throughput = []
+        rate_throughput = []
+        csma_result = []
+        
+        for A in [rate_a, rate_b, rate_c]:    
+
+            print("Peer Nodes:",N,"; Blocks Per Hour:",A * (60*60))
+            for _ in range(3): # run simulation 10 times
+
+                R = 1 * pow(10, 9)
+                L = 1500
+                data = csma_cd(N, A, R, L, D, S, True)
+                csma_result.append(data)
+                csma_ave = mean(csma_result)
+        
+            rate_throughput.append(int(csma_ave))
+
+        rate_throughput.insert(0, N)
+        print(rate_throughput)
+        print("")
+
+        # append results to csv file
+        row = rate_throughput
+
+        with open(filename_1, 'a+', newline='') as csvfile:   
+            csvwriter = csv.writer(csvfile)  # creating a csv writer object  
+            csvwriter.writerow(row) # writing the data rows
+
+# create CSV files to store outputs
+fields_1 = ['Node Count', 'Block Per Hour', 'Block Per Minute', 'Block Per Second'] # header fields
+filename_1 = "block_simulation.csv"
+
+# writing to csv file  
+with open(filename_1, 'w') as csvfile:  
+    csvwriter = csv.writer(csvfile)  # creating a csv writer object 
+    csvwriter.writerow(fields_1)  # writing the fields 
+
+simulation()
